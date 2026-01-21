@@ -1,6 +1,8 @@
 import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Login from './pages/Login'
+import Tareas from './pages/Tareas'
+import NuevaTarea from './pages/NuevaTarea'
 
 function App() {
 
@@ -9,8 +11,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/login" element={<Login />} />
-          {/* <Route path="/tareas" element={<Tareas />} />
-          <Route path="/nueva-tarea" element={<NuevaTarea />} /> */}
+          <Route path="/tareas" element={<Tareas />} />
+          <Route path="/nueva-tarea" element={<NuevaTarea />} />
         </Routes>
       </BrowserRouter>
   )
