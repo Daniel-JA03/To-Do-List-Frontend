@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import TareaService from "../services/TareaService"
 import { useNavigate } from "react-router-dom"
 import TareaCard from "../components/TareaCard"
+import Navbar from "../components/Navbar"
 
 
 export default function Tareas() {
@@ -18,22 +19,25 @@ export default function Tareas() {
   }, [])
 
   return (
-    <div className="p-6">
-      <div className="flex justify-between mb-4">
-        <h1 className="text-2xl font-bold">Mis Tareas</h1>
-        <button
-          onClick={() => navigate("/nueva-tarea")}
-          className="bg-green-600 text-white px-4 py-2 rounded"
-        >
-          + Nueva Tarea
-        </button>
-      </div>
+    <>
+    <Navbar />
+      <div className="p-6 pt-4">
+        <div className="flex justify-between mb-4">
+          <h1 className="text-2xl font-bold">Mis Tareas</h1>
+          <button
+            onClick={() => navigate("/nueva-tarea")}
+            className="bg-green-600 text-white px-4 py-2 rounded"
+          >
+            + Nueva Tarea
+          </button>
+        </div>
 
-      <div className="grid gap-4">
-        {tareas.map(t => (
-          <TareaCard key={t.ide_tar} tarea={t} />
-        ))}
+        <div className="grid gap-4">
+          {tareas.map(t => (
+            <TareaCard key={t.ide_tar} tarea={t} />
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   )
 }
