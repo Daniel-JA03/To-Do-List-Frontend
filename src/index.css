@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 /* Estilo personalizado para las tarjetas de tarea */
 .pedido-card {
   background: linear-gradient(135deg, #1f2937, #111827);
@@ -31,6 +35,5 @@ body {
 #root {
   width: 100%;
   margin: 0 auto;
-  padding: 1rem;
   text-align: center;
 }

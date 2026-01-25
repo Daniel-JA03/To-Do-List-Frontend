@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import UsuarioService from "../services/UsuarioService";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { FaEnvelope, FaLock } from "react-icons/fa";
 
 export default function Login() {
   const { register, handleSubmit } = useForm();
@@ -9,14 +10,12 @@ export default function Login() {
 
   const onSubmit = async (data) => {
     try {
-      const res = await UsuarioService.verificarLogin(
-        data.correo,
-        data.password,
-      );
+      const res = await UsuarioService.verificarLogin(data.correo, data.password);
 
       if (res.data === "approved") {
         const idRes = await UsuarioService.obtenerIdUsuario(data.correo);
-        localStorage.setItem("userId", idRes.data);
+        localStorage.setItem("ide_usr", idRes.data);
+        localStorage.setItem("nom_usr", data.correo); // o mejor: nombre real si lo tienes
         navigate("/tareas");
       } else {
         Swal.fire("Error", "Credenciales incorrectas", "error");
@@ -27,43 +26,65 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="bg-white p-6 rounded-xl shadow-md w-80"
-      >
-        <h2 className="text-xl font-bold mb-4 text-center">Iniciar Sesión</h2>
+    // 👇 Contenedor con overflow-x-hidden para evitar scroll horizontal
+    <div className="min-h-screen w-full flex items-center justify-center p-4 overflow-hidden">
+      <div className="w-full max-w-md">
+        <div className="pedido-card">
+          <h2 className="text-2xl font-bold text-center mb-6">Iniciar Sesión</h2>
 
-        <input
-          type="email"
-          placeholder="Correo"
-          {...register("correo", { required: true })}
-          className="w-full p-2 border rounded mb-3"
-        />
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+            {/* Campo Correo */}
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-1 text-left">
+                Correo electrónico
+              </label>
+              <div className="relative">
+                <FaEnvelope className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <input
+                  type="email"
+                  placeholder="tu@ejemplo.com"
+                  {...register("correo", { required: true })}
+                  className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+            </div>
 
-        <input
-          type="password"
-          placeholder="Contraseña"
-          {...register("password", { required: true })}
-          className="w-full p-2 border rounded mb-4"
-        />
+            {/* Campo Contraseña */}
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-1 text-left">
+                Contraseña
+              </label>
+              <div className="relative">
+                <FaLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <input
+                  type="password"
+                  placeholder="••••••••"
+                  {...register("password", { required: true })}
+                  className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+            </div>
 
-        <button className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
-          Entrar
-        </button>
+            <button
+              type="submit"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium transition-colors"
+            >
+              Entrar
+            </button>
 
-        {/* 👇 Enlace para ir a registro */}
-        <p className="text-center mt-4 text-sm">
-          ¿No tienes cuenta?{" "}
-          <button
-            type="button"
-            onClick={() => navigate("/register")}
-            className="text-blue-600 hover:underline"
-          >
-            Regístrate aquí
-          </button>
-        </p>
-      </form>
+            <p className="text-center mt-4 text-sm text-gray-400">
+              ¿No tienes cuenta?{" "}
+              <button
+                type="button"
+                onClick={() => navigate("/register")}
+                className="text-blue-400 hover:text-blue-300 font-medium"
+              >
+                Regístrate aquí
+              </button>
+            </p>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }
