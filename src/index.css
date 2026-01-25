@@ -40,6 +40,6 @@ body {
 
 /* Oculta el ícono nativo del datetime-local */
 input[type="datetime-local"]::-webkit-calendar-picker-indicator {
-  filter: invert(1); /* ⬅️ Cambia el color a blanco en temas oscuros */
+  filter: invert(1); /* Cambia el color a blanco en temas oscuros */
   opacity: 0.6;
 }
