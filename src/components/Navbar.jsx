@@ -1,3 +1,4 @@
+
 import { useNavigate } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
 
@@ -12,28 +13,25 @@ export default function Navbar() {
     navigate("/login");
   };
 
-  // Cerrar dropdown si se hace click fuera
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
         setOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
-    return () =>
-      document.removeEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
-    <nav className="w-full bg-gray-50 border-b border-gray-200 px-4 py-3 flex justify-between items-center shadow-sm">
-      {/* Centro: título más grande */}
+    <nav className="w-full px-6 py-3 flex justify-between items-center shadow-sm mb-8">
+      {/* Centro */}
       <div className="flex-1 text-center">
         <h1
-          className="font-bold text-xl md:text-2xl text-gray-800 cursor-pointer" // 👈 Aumentado a text-xl / text-2xl
+          className="font-bold text-2xl cursor-pointer"
           onClick={() => navigate("/tareas")}
         >
-          ToDo App
+          Mis Tareas
         </h1>
       </div>
 
@@ -50,7 +48,7 @@ export default function Navbar() {
           <div className="absolute right-0 mt-2 w-40 bg-white text-gray-700 rounded-lg shadow-lg border border-gray-200">
             <button
               onClick={logout}
-              className="w-full text-left px-4 py-2 hover:bg-gray-50 text-sm rounded-lg"
+              className="w-full text-left px-4 py-2 hover:bg-gray-50 text-sm rounded-lg cursor-pointer"
             >
               Cerrar sesión
             </button>

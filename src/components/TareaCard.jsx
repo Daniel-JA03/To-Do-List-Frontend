@@ -29,40 +29,29 @@ export default function TareaCard({ tarea }) {
   };
 
   const editar = () => {
-    navigate(`/editar-tarea/${tarea.ide_tar}`); // ← ¡Ajustado a tu ruta!
+    navigate(`/editar-tarea/${tarea.ide_tar}`);
   };
 
   return (
-    <div className="border p-4 rounded shadow hover:shadow-md transition-shadow">
-      <div className="flex justify-between items-start">
+    <div className="pedido-card">
+      <div className="flex justify-between items-start mb-3">
         <div>
           <h3 className="font-bold text-lg">{tarea.titulo}</h3>
-          <p className="text-gray-700 mt-1">{tarea.descripcion || "Sin descripción"}</p>
-          <span
-            className={`inline-block px-2 py-1 text-xs rounded mt-2 ${
-              tarea.estado === "COMPLETADO"
-                ? "bg-green-100 text-green-800"
-                : tarea.estado === "EN_PROGRESO"
-                ? "bg-yellow-100 text-yellow-800"
-                : "bg-gray-100 text-gray-800"
-            }`}
-          >
-            {tarea.estado}
-          </span>
+          <p className="text-gray-300 text-sm mt-1 opacity-90">
+            {tarea.descripcion || "Sin descripción"}
+          </p>
         </div>
-        <div className="flex space-x-2">
-          {/* Botón Editar con ícono */}
+        <div className="flex space-x-3">
           <button
             onClick={editar}
-            className="text-blue-600 hover:text-blue-800 text-xl"
+            className="text-blue-400 hover:text-blue-300 text-lg cursor-pointer"
             title="Editar"
           >
             <FaEdit />
           </button>
-          {/* Botón Eliminar con ícono */}
           <button
             onClick={eliminar}
-            className="text-red-600 hover:text-red-800 text-xl"
+            className="text-red-400 hover:text-red-300 text-lg cursor-pointer"
             title="Eliminar"
           >
             <MdDelete />
@@ -71,11 +60,23 @@ export default function TareaCard({ tarea }) {
       </div>
 
       {tarea.fecha_limite && (
-        <p className="text-sm text-gray-500 mt-2 flex items-center">
-          <FaCalendarAlt className="mr-1 text-gray-400" />
+        <p className="text-xs text-gray-400 mt-2 flex items-center">
+          <FaCalendarAlt className="mr-1" />
           Límite: {new Date(tarea.fecha_limite).toLocaleString()}
         </p>
       )}
+
+      <span
+        className={`inline-block px-2 py-1 text-xs rounded mt-3 ${
+          tarea.estado === "COMPLETADO"
+            ? "bg-green-900/50 text-green-300"
+            : tarea.estado === "EN_PROGRESO"
+            ? "bg-blue-900/50 text-blue-300"
+            : "bg-yellow-900/50 text-yellow-300"
+        }`}
+      >
+        {tarea.estado}
+      </span>
     </div>
   );
 }
