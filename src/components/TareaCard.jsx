@@ -8,6 +8,39 @@ import { MdDelete } from "react-icons/md";
 export default function TareaCard({ tarea }) {
   const navigate = useNavigate();
 
+  // Dentro de TareaCard.jsx
+
+const ahora = new Date();
+const fechaLimite = tarea.fecha_limite ? new Date(tarea.fecha_limite) : null;
+const completada = tarea.estado === "COMPLETADO";
+
+let estadoVisual = tarea.estado;
+let claseEstado = "";
+
+if (completada && fechaLimite) {
+  // Completada: ¿fue a tiempo o con retraso?
+  if (ahora > fechaLimite || new Date() > fechaLimite) {
+    estadoVisual = "Completado (con retraso)";
+    claseEstado = "bg-orange-900/50 text-orange-300";
+  } else {
+    estadoVisual = "Completado";
+    claseEstado = "bg-green-900/50 text-green-300";
+  }
+  } else if (!completada && fechaLimite && new Date() > fechaLimite) {
+    // No completada y vencida
+    estadoVisual = "Vencida";
+    claseEstado = "bg-red-900/50 text-red-300";
+  } else {
+    // Pendiente o en progreso (a tiempo)
+    if (tarea.estado === "PENDIENTE") {
+      claseEstado = "bg-yellow-900/50 text-yellow-300";
+    } else if (tarea.estado === "EN_PROGRESO") {
+      claseEstado = "bg-blue-900/50 text-blue-300";
+    } else {
+      claseEstado = "bg-gray-900/50 text-gray-300";
+    }
+  }
+
   const eliminar = async () => {
     const res = await Swal.fire({
       title: "¿Eliminar tarea?",
@@ -66,17 +99,12 @@ export default function TareaCard({ tarea }) {
         </p>
       )}
 
-      <span
-        className={`inline-block px-2 py-1 text-xs rounded mt-3 ${
-          tarea.estado === "COMPLETADO"
-            ? "bg-green-900/50 text-green-300"
-            : tarea.estado === "EN_PROGRESO"
-            ? "bg-blue-900/50 text-blue-300"
-            : "bg-yellow-900/50 text-yellow-300"
-        }`}
-      >
-        {tarea.estado}
-      </span>
+      {/* Mostrar estado o "Vencida" si aplica */}
+      { (
+        <span className={`inline-block px-2 py-1 text-xs rounded mt-3 ${claseEstado}`}>
+    {estadoVisual}
+  </span>
+      )}
     </div>
   );
 }
